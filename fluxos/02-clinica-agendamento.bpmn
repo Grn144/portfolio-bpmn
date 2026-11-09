@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="defs" targetNamespace="http://www.bizagi.com/definitions">
+<collaboration id="collab"><participant id="pool" name="Clínica" processRef="proc"/></collaboration>
+<process id="proc" name="Agendamento com confirmação automática" isExecutable="false"><laneSet id="ls">
+<lane id="lane0" name="Paciente"><flowNodeRef>s</flowNodeRef><flowNodeRef>t1</flowNodeRef><flowNodeRef>t4</flowNodeRef><flowNodeRef>g1</flowNodeRef><flowNodeRef>t5</flowNodeRef></lane>
+<lane id="lane1" name="Automação"><flowNodeRef>t3</flowNodeRef><flowNodeRef>t7</flowNodeRef><flowNodeRef>e1</flowNodeRef></lane>
+<lane id="lane2" name="Sistema de agenda"><flowNodeRef>t2</flowNodeRef><flowNodeRef>t6</flowNodeRef><flowNodeRef>t8</flowNodeRef><flowNodeRef>e2</flowNodeRef></lane>
+</laneSet>
+<startEvent id="s" name="Paciente quer agendar"><outgoing>f0</outgoing></startEvent>
+<task id="t1" name="Escolher horário (WhatsApp ou link)"><incoming>f0</incoming><outgoing>f1</outgoing></task>
+<task id="t2" name="Reservar horário na agenda"><incoming>f1</incoming><outgoing>f2</outgoing></task>
+<task id="t3" name="Enviar lembrete 24h antes"><incoming>f2</incoming><outgoing>f3</outgoing></task>
+<task id="t4" name="Responder lembrete"><incoming>f3</incoming><outgoing>f4</outgoing></task>
+<exclusiveGateway id="g1" name="Confirmou?"><incoming>f4</incoming><outgoing>f5</outgoing><outgoing>f6</outgoing></exclusiveGateway>
+<task id="t5" name="Comparecer à consulta"><incoming>f5</incoming><outgoing>f7</outgoing></task>
+<task id="t7" name="Enviar pesquisa de satisfação"><incoming>f7</incoming><outgoing>f8</outgoing></task>
+<endEvent id="e1" name="Fim"><incoming>f8</incoming></endEvent>
+<task id="t6" name="Liberar horário"><incoming>f6</incoming><outgoing>f9</outgoing></task>
+<task id="t8" name="Oferecer à lista de espera"><incoming>f9</incoming><outgoing>f10</outgoing></task>
+<endEvent id="e2" name="Fim"><incoming>f10</incoming></endEvent>
+<sequenceFlow id="f0" sourceRef="s" targetRef="t1"/>
+<sequenceFlow id="f1" sourceRef="t1" targetRef="t2"/>
+<sequenceFlow id="f2" sourceRef="t2" targetRef="t3"/>
+<sequenceFlow id="f3" sourceRef="t3" targetRef="t4"/>
+<sequenceFlow id="f4" sourceRef="t4" targetRef="g1"/>
+<sequenceFlow id="f5" name="Sim" sourceRef="g1" targetRef="t5"/>
+<sequenceFlow id="f6" name="Não" sourceRef="g1" targetRef="t6"/>
+<sequenceFlow id="f7" sourceRef="t5" targetRef="t7"/>
+<sequenceFlow id="f8" sourceRef="t7" targetRef="e1"/>
+<sequenceFlow id="f9" sourceRef="t6" targetRef="t8"/>
+<sequenceFlow id="f10" sourceRef="t8" targetRef="e2"/>
+</process><bpmndi:BPMNDiagram id="d1"><bpmndi:BPMNPlane id="pl" bpmnElement="collab">
+<bpmndi:BPMNShape id="pool_di" bpmnElement="pool" isHorizontal="true"><dc:Bounds x="60" y="250" width="1800" height="720"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="lane0_di" bpmnElement="lane0" isHorizontal="true"><dc:Bounds x="100" y="250" width="1760" height="240"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="lane1_di" bpmnElement="lane1" isHorizontal="true"><dc:Bounds x="100" y="490" width="1760" height="240"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="lane2_di" bpmnElement="lane2" isHorizontal="true"><dc:Bounds x="100" y="730" width="1760" height="240"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_di" bpmnElement="s"><dc:Bounds x="215" y="351.0" width="38" height="38"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t1_di" bpmnElement="t1"><dc:Bounds x="318.0" y="335.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t2_di" bpmnElement="t2"><dc:Bounds x="468.0" y="815.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t3_di" bpmnElement="t3"><dc:Bounds x="618.0" y="575.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t4_di" bpmnElement="t4"><dc:Bounds x="768.0" y="335.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="g1_di" bpmnElement="g1" isMarkerVisible="true"><dc:Bounds x="958" y="344.0" width="52" height="52"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t5_di" bpmnElement="t5"><dc:Bounds x="1068.0" y="335.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t7_di" bpmnElement="t7"><dc:Bounds x="1218.0" y="575.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="e1_di" bpmnElement="e1"><dc:Bounds x="1415" y="591.0" width="38" height="38"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t6_di" bpmnElement="t6"><dc:Bounds x="1068.0" y="815.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t8_di" bpmnElement="t8"><dc:Bounds x="1218.0" y="815.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="e2_di" bpmnElement="e2"><dc:Bounds x="1415" y="831.0" width="38" height="38"/></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="f0_di" bpmnElement="f0"><di:waypoint x="253" y="370.0"/><di:waypoint x="318.0" y="370.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f1_di" bpmnElement="f1"><di:waypoint x="450.0" y="370.0"/><di:waypoint x="459.0" y="370.0"/><di:waypoint x="459.0" y="850.0"/><di:waypoint x="468.0" y="850.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="600.0" y="850.0"/><di:waypoint x="609.0" y="850.0"/><di:waypoint x="609.0" y="610.0"/><di:waypoint x="618.0" y="610.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="750.0" y="610.0"/><di:waypoint x="759.0" y="610.0"/><di:waypoint x="759.0" y="370.0"/><di:waypoint x="768.0" y="370.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="900.0" y="370.0"/><di:waypoint x="958" y="370.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="1010" y="370.0"/><di:waypoint x="1068.0" y="370.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="984" y="396.0"/><di:waypoint x="984" y="850.0"/><di:waypoint x="1068.0" y="850.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f7_di" bpmnElement="f7"><di:waypoint x="1200.0" y="370.0"/><di:waypoint x="1209.0" y="370.0"/><di:waypoint x="1209.0" y="610.0"/><di:waypoint x="1218.0" y="610.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f8_di" bpmnElement="f8"><di:waypoint x="1350.0" y="610.0"/><di:waypoint x="1415" y="610.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f9_di" bpmnElement="f9"><di:waypoint x="1200.0" y="850.0"/><di:waypoint x="1218.0" y="850.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f10_di" bpmnElement="f10"><di:waypoint x="1350.0" y="850.0"/><di:waypoint x="1415" y="850.0"/></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></definitions>
