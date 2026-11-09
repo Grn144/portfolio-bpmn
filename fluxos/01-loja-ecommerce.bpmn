@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="defs" targetNamespace="http://www.bizagi.com/definitions">
+<collaboration id="collab"><participant id="pool" name="Loja de eletrônicos" processRef="proc"/></collaboration>
+<process id="proc" name="Venda multicanal integrada ao ERP" isExecutable="false"><laneSet id="ls">
+<lane id="lane0" name="Canais de venda"><flowNodeRef>s</flowNodeRef><flowNodeRef>t1</flowNodeRef></lane>
+<lane id="lane1" name="ERP"><flowNodeRef>t2</flowNodeRef><flowNodeRef>g1</flowNodeRef><flowNodeRef>t4</flowNodeRef><flowNodeRef>t5</flowNodeRef><flowNodeRef>t6</flowNodeRef></lane>
+<lane id="lane2" name="Automação"><flowNodeRef>t3</flowNodeRef><flowNodeRef>t7</flowNodeRef><flowNodeRef>g2</flowNodeRef><flowNodeRef>t8</flowNodeRef><flowNodeRef>e1</flowNodeRef><flowNodeRef>e2</flowNodeRef></lane>
+</laneSet>
+<startEvent id="s" name="Venda realizada"><outgoing>f0</outgoing></startEvent>
+<task id="t1" name="Receber pedido (loja, ML ou Shopee)"><incoming>f0</incoming><outgoing>f1</outgoing></task>
+<task id="t2" name="Registrar pedido no ERP"><incoming>f1</incoming><outgoing>f2</outgoing></task>
+<task id="t3" name="Baixar estoque em todos os canais"><incoming>f2</incoming><outgoing>f3</outgoing></task>
+<exclusiveGateway id="g1" name="Venda online?"><incoming>f3</incoming><outgoing>f4</outgoing><outgoing>f5</outgoing></exclusiveGateway>
+<task id="t4" name="Emitir NF-e"><incoming>f4</incoming><outgoing>f6</outgoing></task>
+<task id="t5" name="Emitir NFC-e no balcão"><incoming>f5</incoming><outgoing>f7</outgoing></task>
+<task id="t6" name="Gerar etiqueta e enviar rastreio"><incoming>f6</incoming><outgoing>f8</outgoing></task>
+<task id="t7" name="Verificar estoque mínimo"><incoming>f7</incoming><incoming>f8</incoming><outgoing>f9</outgoing></task>
+<exclusiveGateway id="g2" name="Estoque baixo?"><incoming>f9</incoming><outgoing>f10</outgoing><outgoing>f11</outgoing></exclusiveGateway>
+<task id="t8" name="Alertar reposição no WhatsApp"><incoming>f10</incoming><outgoing>f12</outgoing></task>
+<endEvent id="e1" name="Fim"><incoming>f12</incoming></endEvent>
+<endEvent id="e2" name="Fim"><incoming>f11</incoming></endEvent>
+<sequenceFlow id="f0" sourceRef="s" targetRef="t1"/>
+<sequenceFlow id="f1" sourceRef="t1" targetRef="t2"/>
+<sequenceFlow id="f2" sourceRef="t2" targetRef="t3"/>
+<sequenceFlow id="f3" sourceRef="t3" targetRef="g1"/>
+<sequenceFlow id="f4" name="Sim" sourceRef="g1" targetRef="t4"/>
+<sequenceFlow id="f5" name="Não" sourceRef="g1" targetRef="t5"/>
+<sequenceFlow id="f6" sourceRef="t4" targetRef="t6"/>
+<sequenceFlow id="f7" sourceRef="t5" targetRef="t7"/>
+<sequenceFlow id="f8" sourceRef="t6" targetRef="t7"/>
+<sequenceFlow id="f9" sourceRef="t7" targetRef="g2"/>
+<sequenceFlow id="f10" name="Sim" sourceRef="g2" targetRef="t8"/>
+<sequenceFlow id="f11" name="Não" sourceRef="g2" targetRef="e2"/>
+<sequenceFlow id="f12" sourceRef="t8" targetRef="e1"/>
+</process><bpmndi:BPMNDiagram id="d1"><bpmndi:BPMNPlane id="pl" bpmnElement="collab">
+<bpmndi:BPMNShape id="pool_di" bpmnElement="pool" isHorizontal="true"><dc:Bounds x="60" y="250" width="1800" height="720"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="lane0_di" bpmnElement="lane0" isHorizontal="true"><dc:Bounds x="100" y="250" width="1760" height="240"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="lane1_di" bpmnElement="lane1" isHorizontal="true"><dc:Bounds x="100" y="490" width="1760" height="240"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="lane2_di" bpmnElement="lane2" isHorizontal="true"><dc:Bounds x="100" y="730" width="1760" height="240"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_di" bpmnElement="s"><dc:Bounds x="215" y="351.0" width="38" height="38"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t1_di" bpmnElement="t1"><dc:Bounds x="318.0" y="335.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t2_di" bpmnElement="t2"><dc:Bounds x="468.0" y="575.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t3_di" bpmnElement="t3"><dc:Bounds x="618.0" y="815.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="g1_di" bpmnElement="g1" isMarkerVisible="true"><dc:Bounds x="808" y="584.0" width="52" height="52"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t4_di" bpmnElement="t4"><dc:Bounds x="918.0" y="493.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t5_di" bpmnElement="t5"><dc:Bounds x="918.0" y="575.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t6_di" bpmnElement="t6"><dc:Bounds x="1068.0" y="493.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t7_di" bpmnElement="t7"><dc:Bounds x="1218.0" y="815.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="g2_di" bpmnElement="g2" isMarkerVisible="true"><dc:Bounds x="1408" y="824.0" width="52" height="52"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="t8_di" bpmnElement="t8"><dc:Bounds x="1518.0" y="733.0" width="132" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="e1_di" bpmnElement="e1"><dc:Bounds x="1715" y="749.0" width="38" height="38"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="e2_di" bpmnElement="e2"><dc:Bounds x="1565" y="888.4" width="38" height="38"/></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="f0_di" bpmnElement="f0"><di:waypoint x="253" y="370.0"/><di:waypoint x="318.0" y="370.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f1_di" bpmnElement="f1"><di:waypoint x="450.0" y="370.0"/><di:waypoint x="459.0" y="370.0"/><di:waypoint x="459.0" y="610.0"/><di:waypoint x="468.0" y="610.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="600.0" y="610.0"/><di:waypoint x="609.0" y="610.0"/><di:waypoint x="609.0" y="850.0"/><di:waypoint x="618.0" y="850.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="750.0" y="850.0"/><di:waypoint x="834" y="850.0"/><di:waypoint x="834" y="636.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="834" y="584.0"/><di:waypoint x="834" y="528.0"/><di:waypoint x="918.0" y="528.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="860" y="610.0"/><di:waypoint x="918.0" y="610.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="1050.0" y="528.0"/><di:waypoint x="1068.0" y="528.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f7_di" bpmnElement="f7"><di:waypoint x="1050.0" y="610.0"/><di:waypoint x="1134.0" y="610.0"/><di:waypoint x="1134.0" y="850.0"/><di:waypoint x="1218.0" y="850.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f8_di" bpmnElement="f8"><di:waypoint x="1200.0" y="528.0"/><di:waypoint x="1209.0" y="528.0"/><di:waypoint x="1209.0" y="850.0"/><di:waypoint x="1218.0" y="850.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f9_di" bpmnElement="f9"><di:waypoint x="1350.0" y="850.0"/><di:waypoint x="1408" y="850.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f10_di" bpmnElement="f10"><di:waypoint x="1434" y="824.0"/><di:waypoint x="1434" y="768.0"/><di:waypoint x="1518.0" y="768.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f11_di" bpmnElement="f11"><di:waypoint x="1434" y="876.0"/><di:waypoint x="1434" y="907.4"/><di:waypoint x="1565" y="907.4"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="f12_di" bpmnElement="f12"><di:waypoint x="1650.0" y="768.0"/><di:waypoint x="1715" y="768.0"/></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></definitions>
