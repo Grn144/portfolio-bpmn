@@ -16,3 +16,17 @@ Processos modelados em BPMN 2.0 no **Bizagi Modeler**, com foco em identificar g
 **Gustavo Rocetti de Lima**: Analista de Processos e Desenvolvedor Full Stack (Node.js, React, TypeScript)
 
 [LinkedIn](https://www.linkedin.com/in/gustavo-rocetti-898b48251/)
+
+## Diagramas
+
+### 01 - Venda multicanal integrada ao ERP
+![Venda multicanal](fluxos/01-loja-ecommerce_1.png)
+
+### 02 - Agendamento com confirmação automática
+![Agendamento](fluxos/02-clinica-agendamento_1.png)
+
+### 03 - Coleta mensal de documentos contábeis
+![Contabilidade](fluxos/03-contabilidade-documentos_1.png)
+
+### 04 - Atendimento 24h com IA no WhatsApp
+![Atendimento com IA](fluxos/04-atendimento-ia_1.png)
